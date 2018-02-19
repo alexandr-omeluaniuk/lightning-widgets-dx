@@ -7,8 +7,7 @@
     <aura:attribute name="initLatitude" type="Double" default="38.8762" description="initial latitude"/>
     <aura:attribute name="initLongitude" type="Double" default="-77.0502" description="initial longitude"/>
     <aura:attribute name="initZoom" type="Integer" default="14" description="initial zoom"/>
-    <aura:attribute name="initLayer" type="String" default="http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    description="initial layer"/>
+    <aura:attribute name="initLayer" type="String" default="STREETS" description="initial layer"/>
     <aura:attribute name="title" type="String" default="Leaflet map" description="map widget title"/>
     <!-- ============================== EVENT =========================================== -->
     <aura:handler name="init" value="{!this}" action="{!c.init}"/>

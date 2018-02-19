@@ -24,9 +24,32 @@
     transition: height 0.3s ease-in-out;
 }
 .THIS .map-control {
-    background-color: rgba(136, 136, 136, 0.5);
+    background-color: rgba(255, 255, 255, 0.7);
     cursor: pointer;
+    border-radius: token(borderRadiusCircle);
+    transition: 0.3s ease-in-out;
+}
+.THIS .map-control:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 3px #0070d2;
 }
 .THIS .map-control svg {
-    fill: white;
+    fill: rgb(0, 112, 210);
+}
+.THIS .ss-button-group {
+    display: flex;
+    justify-content: flex-end;
+}
+.THIS .ss-tip-btn-hidden {
+    transform: scale(0) !important;
+}
+.THIS .ss-tip-btn {
+    transform: scale(1);
+    transition: 0.15s ease-in-out;
+}
+.THIS .ss-tip-btn svg {
+    fill: green;
+}
+.THIS .ss-tip-btn:hover {
+    box-shadow: 0 0 3px token(colorBorderSuccess);
 }

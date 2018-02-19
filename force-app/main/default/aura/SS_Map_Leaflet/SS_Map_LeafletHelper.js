@@ -41,13 +41,23 @@
                 ],
             component.get('v.initZoom')
         );
-        L.tileLayer(
-            component.get('v.initLayer'), {
-                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        var initLayer = component.get('v.initLayer');
+        component.get('v.layers').forEach(function(layer) {
+            if (layer.id === initLayer) {
+                L.tileLayer(layer.url, {}).addTo(component.map);
             }
-        ).addTo(component.map);
+        });
         helper.registerEvents(component);
     },
+    initControls: function (component) {
+        var helper = this;
+        helper.initLayerControl(component);
+        helper.initLocationControl(component);
+        // =====================================================================
+        L.control.layerSwitcher({ position: 'topright' }).addTo(component.map);
+        L.control.myLocation({ position: 'topright' }).addTo(component.map);
+    },
+    // ================================ PRIVATE ================================
     fireAuraEvent: function (component, type, params) {
         var event = component.getEvent("mapEvent");
         event.setParams({
@@ -56,32 +66,68 @@
         })
         event.fire();
     },
-    initControls: function (component) {
+    createControlButton: function (title, icon, onClick, cssClass) {
+        var button = document.createElement('button');
+        button.innerHTML = '<span data-aura-rendered-by="182:8;a" class="lightningPrimitiveIcon" data-aura-class="lightningPrimitiveIcon"><svg class="slds-button__icon " focusable="false" aria-hidden="true" data-key="checkin">'
+                            + '<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg?cache=8.2.0#' + icon + '"></use>'
+                            + '</svg></span>';
+        button.setAttribute('title', title);
+        button.setAttribute('class', 'slds-button slds-button--icon-border map-control' + (cssClass ? ' ' + cssClass : ''));
+        button.addEventListener('click', onClick);
+        return button;
+    },
+    initLayerControl: function (component) {
+        var helper = this;
+        L.Control.LayerSwitcher = L.Control.extend({
+            onAdd: function(map) {
+                var container = document.createElement('div');
+                container.setAttribute('class', 'ss-button-group');
+                var buttons = [];
+                var layers = component.get('v.layers');
+                var toggleGroupState = function () {
+                    var count = 0;
+                    buttons.reverse().forEach(function (layerBtn) {
+                        setTimeout(function () {
+                           $A.util.toggleClass(layerBtn, 'ss-tip-btn-hidden');
+                        }, Math.exp(count * 1));
+                        count++;
+                    });
+                };
+                layers.forEach(function (layer) {
+                    var layerBtn = helper.createControlButton(layer.title, layer.icon, function () {
+                        component.map.eachLayer(function (l) {
+                            component.map.removeLayer(l);
+                        });
+                        L.tileLayer(layer.url, {}).addTo(component.map);
+                        component.set('v.initLayer', layer.id);
+                        toggleGroupState();
+                    }, 'ss-tip-btn ss-tip-btn-hidden');
+                    container.appendChild(layerBtn);
+                    buttons.push(layerBtn);
+                });
+                var button = helper.createControlButton('Change layer', 'apps', toggleGroupState);
+                container.appendChild(button);
+                return container;
+            }
+        });
+        L.control.layerSwitcher = function(opts) {
+            return new L.Control.LayerSwitcher(opts);
+        }
+    },
+    initLocationControl: function (component) {
+        var helper = this;
         L.Control.MyLocation = L.Control.extend({
             onAdd: function(map) {
-                var button = document.createElement('button');
-                button.innerHTML = '<span data-aura-rendered-by="182:8;a" class="lightningPrimitiveIcon" data-aura-class="lightningPrimitiveIcon"><svg class="slds-button__icon " focusable="false" aria-hidden="true" data-key="checkin">'
-                                    + '<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg?cache=8.2.0#checkin"></use>'
-                                    + '</svg></span>';
-                button.setAttribute('title', "My location");
-                button.setAttribute('class', 'slds-button slds-button--icon-border map-control');
-                button.addEventListener('click', function () {
+                return helper.createControlButton('My location', 'checkin', function () {
                     component.map.locate({
                         setView: true,
-                        maxZoom: 16,
-                        watch: true,
-                        animate: true
+                        maxZoom: 16
                     });
                 });
-                return button;
-            },
-            onRemove: function(map) {
-                // Nothing to do here
             }
         });
         L.control.myLocation = function(opts) {
             return new L.Control.MyLocation(opts);
         }
-        L.control.myLocation({ position: 'topright' }).addTo(component.map);
     }
 })
