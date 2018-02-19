@@ -1,0 +1,15 @@
+<aura:interface description="Map" extends="flexipage:availableForAllPageTypes" access="global">
+	<aura:attribute name="initLatitude" type="Double" default="0" description="initial latitude"/>
+	<aura:attribute name="initLongitude" type="Double" default="0" description="initial longitude"/>
+	<aura:attribute name="initZoom" type="Integer" default="0" description="initial zoom"/>
+	<aura:attribute name="initLayer" type="String" default="http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+					description="initial layer"/>
+
+	<aura:attribute name="title" type="String" default="Map" description="map widget title"/>
+	<!-- ====================================== METHODS ====================================== -->
+	<aura:method name="refreshMap" action="{!c.refreshMap}" description="refresh map state"/>
+	<aura:method name="myLocation" action="{!c.myLocation}"
+				 description="show my location (https required)"/>
+	<!-- ====================================== EVENTS ======================================= -->
+	<aura:registerEvent name="mapEvent" type="c:SS_Map_Event"/>
+</aura:interface>

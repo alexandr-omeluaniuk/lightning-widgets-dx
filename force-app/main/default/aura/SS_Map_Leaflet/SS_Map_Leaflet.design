@@ -1,0 +1,7 @@
+<!--
+ - Created by ss on 16/02/18.
+ -->
+
+<design:component label="SS: Leaflet map">
+    <design:attribute name="title" label="Title" description="Map component title" />
+</design:component>

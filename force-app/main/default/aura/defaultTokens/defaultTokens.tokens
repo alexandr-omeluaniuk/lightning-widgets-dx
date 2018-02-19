@@ -1,0 +1,6 @@
+<!--
+ - Created by ss on 15/02/18.
+ -->
+
+<aura:tokens extends="c:map">
+</aura:tokens>

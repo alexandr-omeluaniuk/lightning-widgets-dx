@@ -1,0 +1,7 @@
+<!--
+ - Created by ss on 15/02/18.
+ -->
+
+<aura:tokens extends="force:base">
+    <aura:token name="mapHeight" value="400px"/>
+</aura:tokens>

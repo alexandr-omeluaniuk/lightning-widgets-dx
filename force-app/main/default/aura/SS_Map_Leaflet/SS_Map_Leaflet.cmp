@@ -1,0 +1,40 @@
+<!--
+ - Created by ss on 15/02/18.
+ -->
+
+<aura:component description="Leaflet map"
+                implements="c:SS_Map,flexipage:availableForAllPageTypes" access="global">
+    <!-- ========================== RESOURCES ========================= -->
+    <ltng:require styles="{!$Resource.Leaflet + '/leaflet.css'}"
+                  scripts="{!$Resource.Leaflet + '/leaflet.js'}"
+                  afterScriptsLoaded="{!c.jsLoaded}"/>
+    <!-- ========================== ATTRIBUTES ======================== -->
+    <aura:attribute access="private" name="jsLoaded" type="boolean" default="false"/>
+    <aura:attribute access="private" name="mapVisibility" type="boolean" default="true"
+                    description="store open/close map state"/>
+    <aura:attribute access="private" name="destroyMap" type="boolean" default="false"
+                    description="destroy map container after hide"/>
+    <!-- ========================== LAYOUT ============================ -->
+    <lightning:card title="{!v.title}" iconName="standard:address"
+                    variant="narrow">
+        <aura:set attribute="actions">
+            <lightning:buttonGroup>
+                <lightning:buttonIcon iconName="utility:chevrondown"
+                                      class="{!v.mapVisibility ? 'btn-control btn-open' : 'btn-control btn-close'}"
+                                      alternativeText="Control"
+                                      title="{!v.mapVisibility ? 'Close' : 'Open'}"
+                                      onclick="{!c.toggleMapVisibility}"/>
+            </lightning:buttonGroup>
+        </aura:set>
+
+        <aura:set attribute="body">
+            <div class="{!v.mapVisibility ? 'map-container' : 'map-container hidden-map'}">
+                <aura:if isTrue="{!!v.destroyMap}">
+                    <!-- Map -->
+                    <div aura:id="map" class="map"></div>
+                </aura:if>
+            </div>
+        </aura:set>
+
+    </lightning:card>
+</aura:component>

@@ -1,0 +1,83 @@
+<!--
+ - Created by ss on 16/02/18.
+ -->
+
+<aura:component description="SS_Demo_Map">
+    <!-- ============================== ATTRIBUTE ======================================= -->
+    <aura:attribute name="initLatitude" type="Double" default="52.0690" description="initial latitude"/>
+    <aura:attribute name="initLongitude" type="Double" default="23.7669" description="initial longitude"/>
+    <aura:attribute name="initZoom" type="Integer" default="10" description="initial zoom"/>
+    <aura:attribute name="initLayer" type="String" default="http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    description="initial layer"/>
+    <aura:attribute name="title" type="String" default="Leaflet map" description="map widget title"/>
+    <!-- ============================== EVENT =========================================== -->
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:handler name="mapEvent" event="c:SS_Map_Event" action="{!c.handleMapEvent}"/>
+    <!-- ============================== LAYOUT ========================================== -->
+    <lightning:layout multipleRows="true" class="container">
+        <!-- FORM -->
+        <lightning:layoutItem size="12" largeDeviceSize="4" mediumDeviceSize="4" smallDeviceSize="12" class="form">
+            <lightning:layout>
+                <lightning:layoutItem size="12">
+                    <div aria-labelledby="mapform">
+                        <fieldset class="slds-form-element">
+                            <legend class="slds-form-element__label slds-text-title_caps">Location</legend>
+                            <form>
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem size="12" largeDeviceSize="6" mediumDeviceSize="6"
+                                                          smallDeviceSize="12" padding="horizontal-small">
+                                        <lightning:input aura:id="mapforminput" label="Latitude" name="mapform-latitude"
+                                                         value="{!v.initLatitude}" type="number" max="90" min="-90"
+                                                         required="true" onblur="{!c.refreshMap}" step="any"/>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="12" largeDeviceSize="6" mediumDeviceSize="6"
+                                                          smallDeviceSize="12" padding="horizontal-small">
+                                        <lightning:input aura:id="mapforminput" label="Longitude" name="mapform-longitude"
+                                                         value="{!v.initLongitude}" type="number" max="180" min="-180"
+                                                         required="true" onblur="{!c.refreshMap}" step="any"/>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="12" largeDeviceSize="6" mediumDeviceSize="6"
+                                                          smallDeviceSize="12" padding="horizontal-small">
+                                        <lightning:input aura:id="mapforminput" label="Zoom" name="mapform-zoom"
+                                                         value="{!v.initZoom}" type="number" max="18" min="0"
+                                                         required="true" step="1" onblur="{!c.refreshMap}"/>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </form>
+                        </fieldset>
+                        <hr/>
+                        <fieldset class="slds-form-element">
+                            <legend class="slds-form-element__label slds-text-title_caps">Settings</legend>
+                            <form>
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem size="12" largeDeviceSize="6" mediumDeviceSize="6"
+                                                          smallDeviceSize="12" padding="horizontal-small">
+                                        <lightning:input aura:id="mapform-title" label="Title" name="mapform-title"
+                                                         value="{!v.title}" type="text" required="true"/>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </form>
+                        </fieldset>
+                        <hr/>
+                        <fieldset class="slds-form-element">
+                            <legend class="slds-form-element__label slds-text-title_caps">Actions</legend>
+                            <form>
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem size="12" largeDeviceSize="6" mediumDeviceSize="6"
+                                                          smallDeviceSize="12" padding="horizontal-small">
+                                        <lightning:button onclick="{!c.myLocation}" label="My location" variant="brand"/>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </form>
+                        </fieldset>
+                    </div>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </lightning:layoutItem>
+        <!-- MAP -->
+        <lightning:layoutItem size="12" largeDeviceSize="8" mediumDeviceSize="8" smallDeviceSize="12">
+            <c:SS_Map_Leaflet aura:id="leflet-map" initLatitude="{!v.initLatitude}" initLongitude="{!v.initLongitude}"
+                              initZoom="{!v.initZoom}" initLayer="{!v.initLayer}" title="{!v.title}"/>
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

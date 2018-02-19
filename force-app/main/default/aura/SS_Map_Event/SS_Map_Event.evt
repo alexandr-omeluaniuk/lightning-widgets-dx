@@ -1,0 +1,8 @@
+<!--
+ - Created by ss on 16/02/18.
+ -->
+
+<aura:event type="APPLICATION" description="wrapped native map event">
+    <aura:attribute name="nativeEventType" type="String" required="true"/>
+    <aura:attribute name="nativeEventParams" type="Object"/>
+</aura:event>

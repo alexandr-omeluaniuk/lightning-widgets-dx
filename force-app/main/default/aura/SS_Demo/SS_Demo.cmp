@@ -1,0 +1,30 @@
+<!--
+ - Created by ss on 15/02/18.
+ -->
+
+<aura:component description="Widgets demo"
+                implements="flexipage:availableForAllPageTypes, forceCommunity:availableForAllPageTypes">
+    <!-- ============================== ATTRIBUTE ======================================= -->
+    <aura:attribute name="currentWidget" type="String" default="c:SS_Demo_Map"
+                    description="widget, selected by default"/>
+    <aura:attribute name="widgets" type="Object[]" default="[]"
+                    description="available widgets"/>
+    <aura:attribute name="demoComponent" type="Object[]" default="[]"
+                    description="dynamically created demo component"/>
+    <!-- ============================== EVENT =========================================== -->
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <!-- ============================== LAYOUT ========================================== -->
+    <lightning:layout multipleRows="true">
+        <lightning:layoutItem size="12" largeDeviceSize="12" mediumDeviceSize="12" smallDeviceSize="12"
+                              padding="horizontal-small">
+            <lightning:combobox label="Widget"
+                                value="{!v.currentWidget}"
+                                onchange="{!c.switchWidget}"
+                                options="{!v.widgets}"/>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="12" largeDeviceSize="12" mediumDeviceSize="12" smallDeviceSize="12"
+                              padding="horizontal-small">
+            {!v.demoComponent}
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>
