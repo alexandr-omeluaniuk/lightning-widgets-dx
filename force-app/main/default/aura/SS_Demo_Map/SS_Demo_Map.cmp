@@ -4,9 +4,9 @@
 
 <aura:component description="SS_Demo_Map">
     <!-- ============================== ATTRIBUTE ======================================= -->
-    <aura:attribute name="initLatitude" type="Double" default="52.0690" description="initial latitude"/>
-    <aura:attribute name="initLongitude" type="Double" default="23.7669" description="initial longitude"/>
-    <aura:attribute name="initZoom" type="Integer" default="10" description="initial zoom"/>
+    <aura:attribute name="initLatitude" type="Double" default="38.8762" description="initial latitude"/>
+    <aura:attribute name="initLongitude" type="Double" default="-77.0502" description="initial longitude"/>
+    <aura:attribute name="initZoom" type="Integer" default="14" description="initial zoom"/>
     <aura:attribute name="initLayer" type="String" default="http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     description="initial layer"/>
     <aura:attribute name="title" type="String" default="Leaflet map" description="map widget title"/>

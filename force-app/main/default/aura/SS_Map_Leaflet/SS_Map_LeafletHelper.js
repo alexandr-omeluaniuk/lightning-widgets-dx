@@ -17,7 +17,7 @@
             helper.fireAuraEvent(component, 'zoom', zoom);
         });
         map.on('locationfound', function (e) {
-            var radius = e.accuracy / 2;
+            var radius = parseFloat(e.accuracy / 2).toFixed(1);
             L.marker(e.latlng).addTo(map).bindPopup("You are within " + radius
                     + " meters from this point").openPopup();
             L.circle(e.latlng, radius).addTo(map);
@@ -66,7 +66,12 @@
                 button.setAttribute('title', "My location");
                 button.setAttribute('class', 'slds-button slds-button--icon-border map-control');
                 button.addEventListener('click', function () {
-                    component.map.locate({setView: true, maxZoom: 16});
+                    component.map.locate({
+                        setView: true,
+                        maxZoom: 16,
+                        watch: true,
+                        animate: true
+                    });
                 });
                 return button;
             },
