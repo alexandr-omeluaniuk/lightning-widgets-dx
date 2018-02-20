@@ -1,0 +1,62 @@
+<!--
+ - Created by ss on 20/02/18.
+ -->
+
+<aura:component description="SS_Demo_Modal">
+    <!-- ============================== ATTRIBUTE ======================================= -->
+    <aura:attribute access="private" name="title" type="String" default="Hello world!"
+                    description="modal title"/>
+    <aura:attribute access="private" name="content" type="String" default="Lorem ipsum..."
+                    description="modal content"/>
+    <aura:attribute access="private" name="options" type="List" default="[
+    {'label': 'Disable OK', 'value': 'disableOK'},
+    {'label': 'Disable Cancel', 'value': 'disableCancel'},
+    ]" description="modal buttons options"/>
+    <aura:attribute access="private" name="value" type="List"/>
+    <!-- ============================== LAYOUT ========================================== -->
+    <lightning:layout multipleRows="true">
+        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="4"
+                              largeDeviceSize="4" padding="around-small">
+            <lightning:input label="Title" value="{!v.title}" type="text"/>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="4"
+                              largeDeviceSize="4" padding="around-small">
+            <lightning:textarea label="Modal content" value="{!v.content}"/>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="4"
+                              largeDeviceSize="4" padding="around-small">
+            <lightning:checkboxGroup
+                    label="Button options"
+                    options="{!v.options}"
+                    value="{!v.value}"/>
+        </lightning:layoutItem>
+
+        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                              largeDeviceSize="12" padding="around-small">
+            <lightning:button onclick="{!c.openModal}" label="Open modal" variant="brand"/>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <!-- Modal -->
+    <c:SS_Modal aura:id="dialog">
+        <aura:set attribute="header">
+            {!v.title}
+        </aura:set>
+        <aura:set attribute="body">
+            {!v.content}
+        </aura:set>
+        <aura:set attribute="footer">
+            <aura:if isTrue="{!!or(and(v.value[0], v.value[0] == 'disableOK'),
+            and(v.value[1], v.value[1] == 'disableOK'))}">
+                <button class="slds-button slds-button_brand"
+                        onclick="{!c.ok}">OK
+                </button>
+            </aura:if>
+            <aura:if isTrue="{!!or(and(v.value[0], v.value[0] == 'disableCancel'),
+            and(v.value[1], v.value[1] == 'disableCancel'))}">
+                <button class="slds-button slds-button_neutral"
+                        onclick="{!c.closeWindow}">Cancel
+                </button>
+            </aura:if>
+        </aura:set>
+    </c:SS_Modal>
+</aura:component>

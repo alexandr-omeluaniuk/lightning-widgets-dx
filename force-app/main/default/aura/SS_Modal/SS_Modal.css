@@ -1,0 +1,9 @@
+/**
+ * Created by ss on 20/02/18.
+ */
+.THIS .w-close-ico svg {
+    fill: rgb(255, 255, 255);
+}
+.THIS .w-close-ico svg:hover {
+    fill: lightgrey;
+}
