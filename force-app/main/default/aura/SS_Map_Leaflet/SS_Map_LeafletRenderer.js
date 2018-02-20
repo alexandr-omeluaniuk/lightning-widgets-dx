@@ -11,7 +11,6 @@
         // Draw the map if it hasn't been drawn yet
         if (!component.map) {
             helper.initMap(component);
-            helper.initControls(component);
         }
         return nodes;
     }

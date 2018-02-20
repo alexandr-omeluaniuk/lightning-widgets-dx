@@ -3,7 +3,7 @@
  */
 ({
     init: function(component, event, helper) {
-        var token = 'pk.eyJ1Ijoic3RzdHJlbG9rIiwiYSI6ImNpaG0yZ3ZoMTBvN290cGx6OWlodXRscW0ifQ.fszeWQtak5VL53VkO7pvcw';
+        var token = component.get('v.mapboxToken');
         var layers = [{
             id: 'DEFAULT',
             icon: 'favorite',
@@ -60,7 +60,6 @@
                 $A.getCallback(function() {
                     delete component.map;
                     helper.initMap(component);
-                    helper.initControls(component);
                 }), 400     // related with CSS animation
             );
         } else {

@@ -76,7 +76,8 @@
         <!-- MAP -->
         <lightning:layoutItem size="12" largeDeviceSize="8" mediumDeviceSize="8" smallDeviceSize="12">
             <c:SS_Map_Leaflet aura:id="leflet-map" initLatitude="{!v.initLatitude}" initLongitude="{!v.initLongitude}"
-                              initZoom="{!v.initZoom}" initLayer="{!v.initLayer}" title="{!v.title}"/>
+                              initZoom="{!v.initZoom}" initLayer="{!v.initLayer}" title="{!v.title}"
+                              mapboxToken="pk.eyJ1Ijoic3RzdHJlbG9rIiwiYSI6ImNpaG0yZ3ZoMTBvN290cGx6OWlodXRscW0ifQ.fszeWQtak5VL53VkO7pvcw"/>
         </lightning:layoutItem>
     </lightning:layout>
 </aura:component>

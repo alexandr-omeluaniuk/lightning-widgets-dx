@@ -9,6 +9,9 @@
                   scripts="{!$Resource.Leaflet + '/leaflet.js'}"
                   afterScriptsLoaded="{!c.jsLoaded}"/>
     <!-- ========================== ATTRIBUTES ======================== -->
+    <aura:attribute access="public" name="mapboxToken" type="String"
+                    required="true" description="Mapbox access token"/>
+
     <aura:attribute access="private" name="jsLoaded" type="boolean" default="false"/>
     <aura:attribute access="private" name="mapVisibility" type="boolean" default="true"
                     description="store open/close map state"/>
