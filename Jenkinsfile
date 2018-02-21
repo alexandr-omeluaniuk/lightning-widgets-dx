@@ -23,10 +23,13 @@ node {
 
             // need to pull out assigned username
             rmsg = sh returnStdout: true, script: "sfdx force:org:create --definitionfile config/project-scratch-def.json --json --setdefaultusername"
+            printf '========================='
             printf rmsg
+            printf '========================='
             def jsonSlurper = new JsonSlurperClassic()
             def robj = jsonSlurper.parseText(rmsg)
-            if (robj.status != "ok") { error 'org creation failed: ' + robj.message }
+            printf robj.status
+            if (robj.status != "0") { error 'org creation failed: ' + robj.message }
             SFDC_USERNAME=robj.username
             robj = null
         }
