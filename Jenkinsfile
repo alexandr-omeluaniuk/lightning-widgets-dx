@@ -73,10 +73,10 @@ node {
         }
         stage('Convert project to Metadata API') {
             rc = sh returnStatus: true, script: "mkdir mdapioutput"
-            rc = sh returnStatus: true, script: "sfdx force:source:convert -d mdapi_output_dir/ --json"
+            rc = sh returnStatus: true, script: "sfdx force:source:convert -d mdapioutput/ --json"
             println rc
         }
-        stage('Deploye to Development org') {
+        stage('Deploy to Development org') {
             rc = sh returnStatus: true, script: "sfdx force:mdapi:deploy -d mdapioutput/ -u SSDev -w 10 --json"
             println rc
         }
