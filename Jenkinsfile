@@ -10,6 +10,11 @@ node {
     def BUILD_NUMBER=env.BUILD_NUMBER
     def RUN_ARTIFACT_DIR="tests/${BUILD_NUMBER}"
 
+    // Development org
+    def SS_DEV_HUB_ORG=env.SS_DEV_HUB_ORG_DH
+    def SS_DEV_JWT_KEY_CRED_ID = env.SS_DEV_JWT_CRED_ID_DH
+    def SS_DEV_CONNECTED_APP_CONSUMER_KEY=env.SS_DEV_CONNECTED_APP_CONSUMER_KEY_DH
+
     stage('checkout source') {
         // when running in multi-branch job, one must issue this command
         checkout scm
@@ -55,6 +60,15 @@ node {
                 if (rc != 0) {
                     error 'org deletion request failed'
                 }
+            }
+        }
+    }
+
+    withCredentials([file(credentialsId: SS_DEV_JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
+        stage('Deploy to production org') {
+            rc = sh returnStatus: true, script: "sfdx force:auth:jwt:grant --clientid ${SS_DEV_CONNECTED_APP_CONSUMER_KEY} --username ${SS_DEV_HUB_ORG} --jwtkeyfile ${jwt_key_file} --setdefaultdevhubusername --instanceurl ${SFDC_HOST} -a SSDev"
+            if (rc != 0) {
+                error 'SSDev org authorization failed'
             }
         }
     }
