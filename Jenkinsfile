@@ -35,11 +35,6 @@ node {
             if (rc != 0) {
                 error 'push all failed'
             }
-            // assign permset
-            rc = sh returnStatus: true, script: "sfdx force:user:permset:assign --targetusername ${SFDC_USERNAME} --permsetname DreamHouse"
-            if (rc != 0) {
-                error 'push all failed'
-            }
         }
         stage('Run Apex Test') {
             sh "mkdir -p ${RUN_ARTIFACT_DIR}"
