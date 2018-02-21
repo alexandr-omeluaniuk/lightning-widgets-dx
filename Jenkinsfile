@@ -72,7 +72,7 @@ node {
             }
         }
         stage('Convert project to Metadata API') {
-            rc = sh returnStatus: true, script: "mkdir mdapi_output_dir"
+            rc = sh returnStatus: true, script: "mkdir mdapioutput"
             rc = sh returnStatus: true, script: "sfdx force:source:convert -d mdapi_output_dir/ --json"
             println rc
         }
