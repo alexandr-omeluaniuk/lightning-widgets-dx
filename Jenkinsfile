@@ -22,7 +22,7 @@ node {
             if (rc != 0) { error 'hub org authorization failed' }
 
             // need to pull out assigned username
-            rmsg = sh returnStdout: true, script: "sfdx force:org:create --definitionfile config/project-scratch-def.json --json --setdefaultusername"
+            rmsg = sh returnStdout: true, script: "sfdx force:org:create --definitionfile config/jenkins-test-scratch-def.json --json --setdefaultusername"
             printf rmsg
             def jsonSlurper = new JsonSlurperClassic()
             def robj = jsonSlurper.parseText(rmsg)
@@ -49,5 +49,13 @@ node {
 //        stage('collect results') {
 //            junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
 //        }
+        stage('Delete Test Org') {
+            timeout(time: 120, unit: 'SECONDS') {
+                rc = sh returnStatus: true, script: "sfdx force:org:delete --targetusername ${SFDC_USERNAME} --noprompt"
+                if (rc != 0) {
+                    error 'org deletion request failed'
+                }
+            }
+        }
     }
 }
