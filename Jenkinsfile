@@ -65,11 +65,20 @@ node {
     }
 
     withCredentials([file(credentialsId: SS_DEV_JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
-        stage('Deploy to production org') {
+        stage('Connect to Development org') {
             rc = sh returnStatus: true, script: "sfdx force:auth:jwt:grant --clientid ${SS_DEV_CONNECTED_APP_CONSUMER_KEY} --username ${SS_DEV_HUB_ORG} --jwtkeyfile ${jwt_key_file} --setdefaultdevhubusername --instanceurl ${SFDC_HOST} -a SSDev"
             if (rc != 0) {
                 error 'SSDev org authorization failed'
             }
+        }
+        stage('Convert project to Metadata API') {
+            rc = sh returnStatus: true, script: "mkdir mdapi_output_dir"
+            rc = sh returnStatus: true, script: "sfdx force:source:convert -d mdapi_output_dir/ --json"
+            println rc
+        }
+        stage('Deploye to Development org') {
+            rc = sh returnStatus: true, script: "sfdx force:mdapi:deploy -d mdapioutput/ -u SSDev -w 10 --json"
+            println rc
         }
     }
 }
