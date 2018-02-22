@@ -65,5 +65,8 @@
         } else {
             component.set('v.destroyMap', true);
         }
+    },
+    myLocation : function(component, event, helper) {
+        helper.myLocation(component);
     }
 })

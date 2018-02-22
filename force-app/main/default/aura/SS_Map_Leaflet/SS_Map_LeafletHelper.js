@@ -76,6 +76,12 @@
         helper.registerEvents(component);
         helper.initControls(component);
     },
+    myLocation: function (component) {
+        component.map.locate({
+            setView: true,
+            maxZoom: 16
+        });
+    },
     // ================================ PRIVATE ================================
     /*
      * Initialize map controls.
@@ -163,10 +169,7 @@
         L.Control.MyLocation = L.Control.extend({
             onAdd: function(map) {
                 return helper.createControlButton('My location', 'checkin', function () {
-                    component.map.locate({
-                        setView: true,
-                        maxZoom: 16
-                    });
+                    helper.myLocation(component);
                 });
             }
         });
